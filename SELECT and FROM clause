@@ -1,0 +1,45 @@
+<html>
+<head>
+  <title>Multi-Table Query Example</title>
+</head>
+<body>
+
+  <h1>Products, Employees and Departments</h1>
+
+  <table border="1">
+    <tr>
+      <th>Product Name</th>  
+      <th>Employee Name</th>
+      <th>Department Name</th>
+    </tr>
+
+<?php
+
+  $conn = mysqli_connect("localhost", "username", "password", "database");
+
+  $sql = "SELECT 
+            products.name,
+            employees.name, 
+            departments.name
+          FROM products
+          JOIN employees ON products.employee_id = employees.id
+          JOIN departments ON employees.department_id = departments.id";
+
+  $result = mysqli_query($conn, $sql);
+
+  while($row = mysqli_fetch_array($result)) {
+    echo "<tr>";
+    echo "<td>" . $row['products.name'] . "</td>";
+    echo "<td>" . $row['employees.name'] . "</td>"; 
+    echo "<td>" . $row['departments.name'] . "</td>";
+    echo "</tr>";
+  }
+
+  mysqli_close($conn);
+
+?>
+
+  </table>
+
+</body>
+</html>
